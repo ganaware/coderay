@@ -34,10 +34,9 @@ module Scanners
       'static', 'unchecked', 'unsafe', 'virtual', 'void', 'volatile',
     ]  # :nodoc:
     CONTEXTUAL_KEYWORDS = [
-      'get', 'set', 'var', 'yield',
-      #'add', 'alias', 'ascending', 'async', 'await', 'descending', 'dynamic',
-      #'from', 'global', 'group', 'into', 'join', 'let', 'orderby', 'partial',
-      #'remove', 'select', 'value', 'where',
+      'add', 'alias', 'ascending', 'async', 'await', 'descending', 'dynamic',
+      'from', 'get', 'global', 'group', 'into', 'join', 'let', 'orderby',
+      'partial', 'remove', 'select', 'set', 'value', 'var', 'where', 'yield',
     ]  # :nodoc:
     
     IDENT_KIND = WordList.new(:ident).
