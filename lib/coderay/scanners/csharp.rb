@@ -93,7 +93,7 @@ module Scanners
             end
             encoder.text_token match, :operator
 
-          elsif match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
+          elsif match = scan(/ @?[A-Za-z_][A-Za-z_0-9]* /x)
             kind = IDENT_KIND[match]
             if kind == :ident && label_expected &&  !in_preproc_line && scan(/:(?!:)/)
               kind = :label
