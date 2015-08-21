@@ -135,10 +135,6 @@ module Scanners
             label_expected = false
             encoder.text_token match, :hex
 
-          elsif match = scan(/(?:0[0-7]+)(?![89.DEFM])(?:UL?|LU?|)/i)
-            label_expected = false
-            encoder.text_token match, :octal
-
           elsif match = scan(/(?:\d+)(?![.DEFM])(?:UL?|LU?|)/i)
             label_expected = false
             encoder.text_token match, :integer
