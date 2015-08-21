@@ -113,12 +113,12 @@ module Scanners
             encoder.text_token match, kind
 
           elsif match = scan(/"/)
-            encoder.begin_group :regular_string
+            encoder.begin_group :string
             state = :regular_string
             encoder.text_token match, :delimiter
 
           elsif match = scan(/@"/)
-            encoder.begin_group :verbatim_string
+            encoder.begin_group :string
             state = :verbatim_string
             encoder.text_token match, :delimiter
 
@@ -157,13 +157,13 @@ module Scanners
             encoder.text_token match, :content
           elsif match = scan(/"/)
             encoder.text_token match, :delimiter
-            encoder.end_group :regular_string
+            encoder.end_group :string
             state = :initial
             label_expected = false
           elsif match = scan(/ #{ESCAPE} /ox)
             encoder.text_token match, :char
           elsif match = scan(/ \\ | $ /x)
-            encoder.end_group :regular_string
+            encoder.end_group :string
             encoder.text_token match, :error unless match.empty?
             state = :initial
             label_expected = false
@@ -178,7 +178,7 @@ module Scanners
             encoder.text_token match, :char
           elsif match = scan(/"/)
             encoder.text_token match, :delimiter
-            encoder.end_group :verbatim_string
+            encoder.end_group :string
             state = :initial
             label_expected = false
           else
@@ -207,7 +207,7 @@ module Scanners
       end
 
       if state == :regular_string || state == :verbatim_string
-        encoder.end_group state
+        encoder.end_group :string
       end
 
       encoder
