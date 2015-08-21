@@ -135,13 +135,19 @@ module Scanners
             label_expected = false
             encoder.text_token match, :hex
 
-          elsif match = scan(/(?:\d+)(?![.DEFM])(?:UL?|LU?|)/i)
-            label_expected = false
-            encoder.text_token match, :integer
-
-          elsif match = scan(/\d*\.\d+(?:E[+-]?\d+)?[DFM]?|\d+E[+-]?\d+[DFM]?|\d[DFM]?/i)
+          elsif match = scan(/
+              \.\d+(?:E[+-]?\d+)?[DFM]? |
+              \d+ (?:
+                \.\d+(?:E[+-]?\d+)?[DFM]? |
+                E[+-]?\d+[DFM]? |
+                [DFM] )
+              /xi)
             label_expected = false
             encoder.text_token match, :float
+
+          elsif match = scan(/\d+(?:UL?|LU?|)/i)
+            label_expected = false
+            encoder.text_token match, :integer
 
           else
             encoder.text_token getch, :error
