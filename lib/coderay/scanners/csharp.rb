@@ -187,7 +187,7 @@ module Scanners
           end
 
         when :class_name_expected
-          if match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
+          if match = scan(/ @?[A-Za-z_][A-Za-z_0-9]* /x)
             encoder.text_token match, :class
             state = :initial
 
