@@ -64,6 +64,7 @@ module Scanners
       case_expected = false
       label_expected_before_preproc_line = nil
       in_preproc_line = false
+      in_type_parameter_constraints_clauses = false
 
       until eos?
 
@@ -91,6 +92,9 @@ module Scanners
               label_expected = true if match == ':'
               case_expected = false
             end
+            if match !~ /^[(),.:?\[\]<>]+$/
+              in_type_parameter_constraints_clauses = false
+            end
             encoder.text_token match, :operator
 
           elsif match = scan(/ @?[A-Za-z_][A-Za-z_0-9]* /x)
@@ -102,8 +106,12 @@ module Scanners
               label_expected = false
               if kind == :keyword
                 case match
+                when 'where'
+                  in_type_parameter_constraints_clauses = true
                 when 'class', 'interface', 'struct'
-                  state = :class_name_expected
+                  if !in_type_parameter_constraints_clauses
+                    state = :class_name_expected
+                  end
                 when 'case', 'default'
                   case_expected = true
                 end
