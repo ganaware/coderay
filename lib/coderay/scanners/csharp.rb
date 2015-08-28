@@ -129,6 +129,9 @@ module Scanners
             state = :verbatim_string
             encoder.text_token match, :delimiter
 
+          elsif match = scan(/#[ \t]*region\W.*$/)
+            encoder.text_token match, :preprocessor
+
           elsif match = scan(/#[ \t]*(\w*)/)
             encoder.text_token match, :preprocessor
             in_preproc_line = true
